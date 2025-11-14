@@ -9,5 +9,13 @@ export default function Redirector() {
     router.push("/home");
   }, []);
 
-  return null;
+  return (
+    <section>
+      <html>
+        <body>
+          <h1>Redirecting...</h1>
+        </body>
+      </html>
+    </section>
+  );
 }
