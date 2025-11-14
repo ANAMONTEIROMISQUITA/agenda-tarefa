@@ -12,6 +12,7 @@ import {
   FileText,
 } from "lucide-react";
 import "../global.css";
+import { taskApi, userApi } from "../api";
 
 // --------------------------
 // DADOS FAKES
@@ -66,6 +67,11 @@ export default function TasksPage() {
   // --------------------------
   // ESTADOS
   // --------------------------
+
+  // -----------------------------
+  // JS para dados fakes
+  // -----------------------------
+
   const [users] = useState(fakeUsers);
   const [tasks, setTasks] = useState(fakeTasks);
 
@@ -166,6 +172,157 @@ export default function TasksPage() {
 
     setDialogOpen(false);
   };
+
+  // -------------------
+  // Conexão Com API
+  // -------------------
+
+  // const [tasks, setTasks] = useState([]);
+  // const [users, setUsers] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [dialogOpen, setDialogOpen] = useState(false);
+  // const [editingTask, setEditingTask] = useState(null);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [filterUser, setFilterUser] = useState("all");
+  // const [formData, setFormData] = useState({
+  //   titulo: "",
+  //   descricao: "",
+  //   id_usuario: "",
+  //   prazo_final: "",
+  // });
+
+  // // Carregar dados quando o componente inicia
+  // useEffect(() => {
+  //   carregarDados();
+  // }, []);
+
+  // // Atualizar formulário quando editar tarefa
+  // useEffect(() => {
+  //   if (editingTask) {
+  //     setFormData({
+  //       titulo: editingTask.titulo,
+  //       descricao: editingTask.descricao,
+  //       id_usuario: editingTask.id_usuario.toString(),
+  //       prazo_final: editingTask.prazo_final.split("T")[0],
+  //     });
+  //   } else {
+  //     setFormData({
+  //       titulo: "",
+  //       descricao: "",
+  //       id_usuario: users[0]?.id.toString() || "",
+  //       prazo_final: "",
+  //     });
+  //   }
+  // }, [editingTask, users, dialogOpen]);
+
+  // const carregarDados = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const [tarefas, usuarios] = await Promise.all([
+  //       taskApi.getAll(),
+  //       userApi.getAll(),
+  //     ]);
+  //     setTasks(tarefas);
+  //     setUsers(usuarios);
+  //   } catch (error) {
+  //     console.error("Erro ao carregar dados:", error);
+  //     toast.error("Erro ao carregar dados. Tente recarregar a página.");
+  //     // Força um estado vazio para não ficar em branco
+  //     setTasks([]);
+  //     setUsers([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // // Função para recarregar a página
+  // const recarregarPagina = () => {
+  //   window.location.reload();
+  // };
+
+  // // Criar tarefa
+  // const handleCriarTarefa = async (task) => {
+  //   try {
+  //     await taskApi.create(task);
+  //     toast.success("Tarefa criada com sucesso!");
+  //     setDialogOpen(false);
+  //     recarregarPagina(); // Recarrega a página
+  //   } catch (error) {
+  //     toast.error("Erro ao criar tarefa");
+  //   }
+  // };
+
+  // // Editar tarefa
+  // const handleEditarTarefa = async (task) => {
+  //   try {
+  //     await taskApi.update(task.id, task);
+  //     toast.success("Tarefa atualizada com sucesso!");
+  //     setDialogOpen(false);
+  //     recarregarPagina(); // Recarrega a página
+  //   } catch (error) {
+  //     toast.error("Erro ao atualizar tarefa");
+  //   }
+  // };
+
+  // // Deletar tarefa
+  // const handleDeletarTarefa = async (id) => {
+  //   if (confirm("Tem certeza que deseja excluir esta tarefa?")) {
+  //     try {
+  //       await taskApi.delete(id);
+  //       toast.success("Tarefa excluída com sucesso!");
+  //       recarregarPagina(); // Recarrega a página
+  //     } catch (error) {
+  //       toast.error("Erro ao excluir tarefa");
+  //     }
+  //   }
+  // };
+
+  // // Salvar tarefa (criar ou editar)
+  // const handleSaveTask = (e) => {
+  //   e.preventDefault();
+
+  //   const taskData = {
+  //     ...(editingTask && { id: editingTask.id }),
+  //     titulo: formData.titulo,
+  //     descricao: formData.descricao,
+  //     id_usuario: parseInt(formData.id_usuario),
+  //     prazo_final: formData.prazo_final,
+  //   };
+
+  //   if (editingTask) {
+  //     handleEditarTarefa(taskData);
+  //   } else {
+  //     handleCriarTarefa(taskData);
+  //   }
+  // };
+
+  // // Editar tarefa
+  // const handleEditTask = (task) => {
+  //   setEditingTask(task);
+  //   setDialogOpen(true);
+  // };
+
+  // // Nova tarefa
+  // const handleNewTask = () => {
+  //   setEditingTask(null);
+  //   setDialogOpen(true);
+  // };
+
+  // // Fechar diálogo
+  // const handleCloseDialog = () => {
+  //   setDialogOpen(false);
+  //   setEditingTask(null);
+  // };
+
+  // // Filtrar tarefas
+  // const filteredTasks = tasks.filter((task) => {
+  //   const matchesSearch =
+  //     task.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     task.descricao.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesUser =
+  //     filterUser === "all" || task.id_usuario.toString() === filterUser;
+  //   return matchesSearch && matchesUser;
+  // });
 
   // --------------------------
   // RENDER

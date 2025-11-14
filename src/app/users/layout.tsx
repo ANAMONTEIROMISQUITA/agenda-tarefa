@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Search, Pencil, Trash2, Mail, Home, X } from "lucide-react";
 import "../global.css";
+import { userApi } from "../api";
 
 // -----------------------------
 // FAKE USERS
@@ -75,6 +76,10 @@ export const fakeUsers = [
 // COMPONENTE
 // -----------------------------
 export default function RootLayout() {
+  // -----------------------------
+  // JS para dados fakes
+  // -----------------------------
+
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
@@ -155,6 +160,130 @@ export default function RootLayout() {
   const handleDeletarUsuario = (id) => {
     setUsers((prev) => prev.filter((u) => u.id !== id));
   };
+
+  // ----------------------
+  // Conexão Com API
+  // ----------------------
+
+  // const [users, setUsers] = useState([]);
+  // const [loading, setLoading] = useState(true);
+  // const [dialogOpen, setDialogOpen] = useState(false);
+  // const [editingUser, setEditingUser] = useState(null);
+  // const [searchTerm, setSearchTerm] = useState("");
+  // const [formData, setFormData] = useState({
+  //   nome: "",
+  //   email: "",
+  // });
+
+  // // Buscar usuários quando o componente carregar
+  // useEffect(() => {
+  //   carregarUsuarios();
+  // }, []);
+
+  // // Atualizar formulário quando editar usuário
+  // useEffect(() => {
+  //   if (editingUser) {
+  //     setFormData({
+  //       nome: editingUser.nome,
+  //       email: editingUser.email,
+  //     });
+  //   } else {
+  //     setFormData({
+  //       nome: "",
+  //       email: "",
+  //     });
+  //   }
+  // }, [editingUser, dialogOpen]);
+
+  // const carregarUsuarios = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const usuarios = await userApi.getAll();
+  //     setUsers(usuarios);
+  //   } catch (error) {
+  //     toast.error("Erro ao carregar usuários");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  // // Criar usuário
+  // const handleCriarUsuario = async (user) => {
+  //   try {
+  //     await userApi.create(user);
+  //     toast.success("Usuário criado com sucesso!");
+  //     setDialogOpen(false);
+  //     carregarUsuarios();
+  //   } catch (error) {
+  //     toast.error("Erro ao criar usuário");
+  //   }
+  // };
+
+  // // Editar usuário
+  // const handleEditarUsuario = async (user) => {
+  //   try {
+  //     await userApi.update(user.id, user);
+  //     toast.success("Usuário atualizado com sucesso!");
+  //     setDialogOpen(false);
+  //     carregarUsuarios();
+  //   } catch (error) {
+  //     toast.error("Erro ao atualizar usuário");
+  //   }
+  // };
+
+  // // Deletar usuário
+  // const handleDeletarUsuario = async (id) => {
+  //   if (confirm("Tem certeza que deseja excluir este usuário?")) {
+  //     try {
+  //       await userApi.delete(id);
+  //       toast.success("Usuário excluído com sucesso!");
+  //       carregarUsuarios();
+  //     } catch (error) {
+  //       toast.error("Erro ao excluir usuário");
+  //     }
+  //   }
+  // };
+
+  // // Salvar usuário (criar ou editar)
+  // const handleSaveUser = (e) => {
+  //   e.preventDefault();
+
+  //   const userData = {
+  //     ...(editingUser && { id: editingUser.id }),
+  //     ...formData,
+  //   };
+
+  //   if (editingUser) {
+  //     handleEditarUsuario(userData);
+  //   } else {
+  //     handleCriarUsuario(userData);
+  //   }
+  // };
+
+  // // Editar usuário
+  // const handleEditUser = (user) => {
+  //   setEditingUser(user);
+  //   setDialogOpen(true);
+  // };
+
+  // // Novo usuário
+  // const handleNewUser = () => {
+  //   setEditingUser(null);
+  //   setDialogOpen(true);
+  // };
+
+  // // Fechar diálogo
+  // const handleCloseDialog = () => {
+  //   setDialogOpen(false);
+  //   setEditingUser(null);
+  // };
+
+  // // Filtrar usuários pela busca
+  // const filteredUsers = users.filter(
+  //   (user) =>
+  //     user.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   return (
     <html>
