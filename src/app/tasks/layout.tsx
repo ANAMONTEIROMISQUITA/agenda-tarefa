@@ -295,7 +295,7 @@ const Tasks = () => {
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <User className="w-4 h-4" />
-                        <span>{user?.nome || "Usuário não encontrado"}</span>
+                        <span>{task.nome || "Usuário não encontrado"}</span>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-600">
                         <Calendar className="w-4 h-4" />
