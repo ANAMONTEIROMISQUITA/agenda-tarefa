@@ -1,30 +1,39 @@
-// Configuração da API
+// =======================================
+// CONFIG
+// =======================================
 const API_BASE_URL = "http://localhost:5000";
 
-// Função auxiliar para fazer requisições
-async function fazerRequisicao(url: string, options = {}) {
+async function request(url: string, options: RequestInit = {}) {
   const response = await fetch(url, options);
+
   if (!response.ok) {
-    throw new Error("Erro na requisição");
+    const message = await response.text();
+    throw new Error(`Erro na requisição: ${message}`);
   }
+
+  // Retorna 204 No Content sem tentar fazer json()
+  if (response.status === 204) return null;
+
   return response.json();
 }
 
-// API para Usuários
+// =======================================
+// USER API
+// =======================================
 export const userApi = {
-  // Buscar todos os usuários
+  // Listar todos os usuários
   getAll: async () => {
-    return fazerRequisicao(`${API_BASE_URL}/user`);
+    return request(`${API_BASE_URL}/user`);
   },
 
   // Buscar usuário por ID
   getById: async (id: number) => {
-    return fazerRequisicao(`${API_BASE_URL}/user/${id}`);
+    return request(`${API_BASE_URL}/user/${id}`);
   },
 
-  // Criar novo usuário
-  create: async (data: String) => {
-    return fazerRequisicao(`${API_BASE_URL}/user`, {
+  // Criar usuário
+  create: async (data: { nome: string; email: string }) => {
+    return request(`${API_BASE_URL}/user`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -32,47 +41,39 @@ export const userApi = {
   },
 
   // Atualizar usuário
-  update: async (id: number, data) => {
-    return fazerRequisicao(
-      `${API_BASE_URL}/user?user_id=${id}&nome=${encodeURIComponent(
-        data.nome
-      )}&email=${encodeURIComponent(data.email)}`,
-      {
-        method: "PUT",
-      }
-    );
+  update: async (id: number, data: { nome: string; email: string }) => {
+    return request(`${API_BASE_URL}/user/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
   },
 
   // Deletar usuário
-  delete: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/user?user_id=${id}`, {
+  delete: async (id: number) => {
+    return request(`${API_BASE_URL}/user/${id}`, {
       method: "DELETE",
     });
-    if (!response.ok && response.status !== 204) {
-      throw new Error("Erro ao deletar usuário");
-    }
   },
 };
 
-// API para Tarefas
+// =======================================
+// TASK API
+// =======================================
 export const taskApi = {
-  // Buscar todas as tarefas
+  // Listar todas as tarefas
   getAll: async () => {
-    return fazerRequisicao(`${API_BASE_URL}/task`);
+    return request(`${API_BASE_URL}/task`);
   },
 
   // Buscar tarefa por ID
-  getById: async (id) => {
-    return fazerRequisicao(`${API_BASE_URL}/task`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ task_id: id }),
-    });
+  getById: async (id: number) => {
+    return request(`${API_BASE_URL}/task/${id}`);
   },
 
-  // Criar nova tarefa
-  create: async (data) => {
-    return fazerRequisicao(`${API_BASE_URL}/task`, {
+  // Criar tarefa
+  create: async (data: { titulo: string; descricao: string }) => {
+    return request(`${API_BASE_URL}/task`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -80,22 +81,22 @@ export const taskApi = {
   },
 
   // Atualizar tarefa
-  update: async (id, data) => {
-    return fazerRequisicao(`${API_BASE_URL}/task`, {
+  update: async (
+    id: number,
+    data: { titulo?: string; descricao?: string; status?: string }
+  ) => {
+    return request(`${API_BASE_URL}/task/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, ...data }),
+      body: JSON.stringify(data),
     });
   },
 
   // Deletar tarefa
-  delete: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/task?task_id=${id}`, {
+  delete: async (id: number) => {
+    return request(`${API_BASE_URL}/task/${id}`, {
       method: "DELETE",
     });
-    if (!response.ok && response.status !== 204) {
-      throw new Error("Erro ao deletar tarefa");
-    }
   },
 };
 
