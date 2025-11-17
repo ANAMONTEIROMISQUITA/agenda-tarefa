@@ -15,14 +15,33 @@ import { toast } from "sonner";
 import Link from "next/link";
 import "../global.css";
 
+interface Task {
+  id: number;
+  titulo: string;
+  descricao: string;
+  id_usuario: number;
+  prazo_final: string;
+  nome?: string; // opcional — vem do JOIN com usuários
+}
+
+interface User {
+  id: number;
+  nome: string;
+  email: string;
+}
+
 const Tasks = () => {
-  const [tasks, setTasks] = useState([]);
-  const [users, setUsers] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
+
+  // 🔥 Aqui estava o erro!
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterUser, setFilterUser] = useState("all");
+
   const [formData, setFormData] = useState({
     titulo: "",
     descricao: "",
@@ -80,7 +99,7 @@ const Tasks = () => {
   };
 
   // Criar tarefa
-  const handleCriarTarefa = async (task) => {
+  const handleCriarTarefa = async (task: any) => {
     try {
       await taskApi.create(task);
       toast.success("Tarefa criada com sucesso!");
@@ -92,7 +111,7 @@ const Tasks = () => {
   };
 
   // Editar tarefa
-  const handleEditarTarefa = async (task) => {
+  const handleEditarTarefa = async (task: any) => {
     try {
       await taskApi.update(task.id, task);
       toast.success("Tarefa atualizada com sucesso!");
@@ -104,7 +123,7 @@ const Tasks = () => {
   };
 
   // Deletar tarefa
-  const handleDeletarTarefa = async (id) => {
+  const handleDeletarTarefa = async (id: any) => {
     if (confirm("Tem certeza que deseja excluir esta tarefa?")) {
       try {
         await taskApi.delete(id);
@@ -117,7 +136,7 @@ const Tasks = () => {
   };
 
   // Salvar tarefa (criar ou editar)
-  const handleSaveTask = (e) => {
+  const handleSaveTask = (e: any) => {
     e.preventDefault();
 
     const taskData = {
@@ -136,7 +155,7 @@ const Tasks = () => {
   };
 
   // Editar tarefa
-  const handleEditTask = (task) => {
+  const handleEditTask = (task: any) => {
     setEditingTask(task);
     setDialogOpen(true);
   };
@@ -297,7 +316,17 @@ const Tasks = () => {
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <User className="w-4 h-4" />
-                            <span>{task.nome || "Usuário não encontrado"}</span>
+
+                            {(() => {
+                              const user = users.find(
+                                (u) => u.id === task.id_usuario
+                              );
+                              return (
+                                <span>
+                                  {user?.nome ?? "Usuário não encontrado"}
+                                </span>
+                              );
+                            })()}
                           </div>
                           <div className="flex items-center gap-2 text-sm text-gray-600">
                             <Calendar className="w-4 h-4" />

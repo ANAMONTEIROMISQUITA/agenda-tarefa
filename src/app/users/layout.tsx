@@ -1,28 +1,38 @@
 "use client";
 import { useState, useEffect } from "react";
-import { userApi } from "../api"; // CORRIGIDO
+import { userApi } from "../api";
 import { Plus, Search, Pencil, Trash2, Mail, Home, X } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import "../global.css";
 
+// =========================
+// TIPAGEM CORRETA
+// =========================
+interface User {
+  id: number;
+  nome: string;
+  email: string;
+}
+
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editingUser, setEditingUser] = useState(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
   });
 
-  // Buscar usuários quando o componente carregar
+  // Carregar usuários
   useEffect(() => {
     carregarUsuarios();
   }, []);
 
-  // Atualizar formulário quando editar usuário
+  // Atualizar formulário
   useEffect(() => {
     if (editingUser) {
       setFormData({
@@ -40,54 +50,50 @@ const Users = () => {
   const carregarUsuarios = async () => {
     try {
       setLoading(true);
-      const usuarios = await userApi.getAll();
+      const usuarios: User[] = await userApi.getAll();
       setUsers(usuarios);
-    } catch (error) {
+    } catch {
       toast.error("Erro ao carregar usuários");
     } finally {
       setLoading(false);
     }
   };
 
-  // Criar usuário
-  const handleCriarUsuario = async (user) => {
+  const handleCriarUsuario = async (user: Omit<User, "id">) => {
     try {
       await userApi.create(user);
       toast.success("Usuário criado com sucesso!");
       setDialogOpen(false);
       carregarUsuarios();
-    } catch (error) {
+    } catch {
       toast.error("Erro ao criar usuário");
     }
   };
 
-  // Editar usuário
-  const handleEditarUsuario = async (user) => {
+  const handleEditarUsuario = async (user: User) => {
     try {
       await userApi.update(user.id, user);
       toast.success("Usuário atualizado com sucesso!");
       setDialogOpen(false);
       carregarUsuarios();
-    } catch (error) {
+    } catch {
       toast.error("Erro ao atualizar usuário");
     }
   };
 
-  // Deletar usuário
-  const handleDeletarUsuario = async (id) => {
+  const handleDeletarUsuario = async (id: number) => {
     if (confirm("Tem certeza que deseja excluir este usuário?")) {
       try {
         await userApi.delete(id);
         toast.success("Usuário excluído com sucesso!");
         carregarUsuarios();
-      } catch (error) {
+      } catch {
         toast.error("Erro ao excluir usuário");
       }
     }
   };
 
-  // Salvar usuário (criar ou editar)
-  const handleSaveUser = (e) => {
+  const handleSaveUser = (e: React.FormEvent) => {
     e.preventDefault();
 
     const userData = {
@@ -96,35 +102,31 @@ const Users = () => {
     };
 
     if (editingUser) {
-      handleEditarUsuario(userData);
+      handleEditarUsuario(userData as User);
     } else {
-      handleCriarUsuario(userData);
+      handleCriarUsuario(userData as Omit<User, "id">);
     }
   };
 
-  // Editar usuário
-  const handleEditUser = (user) => {
+  const handleEditUser = (user: User) => {
     setEditingUser(user);
     setDialogOpen(true);
   };
 
-  // Novo usuário
   const handleNewUser = () => {
     setEditingUser(null);
     setDialogOpen(true);
   };
 
-  // Fechar diálogo
   const handleCloseDialog = () => {
     setDialogOpen(false);
     setEditingUser(null);
   };
 
-  // Filtrar usuários pela busca
   const filteredUsers = users.filter(
-    (user) =>
-      user.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    (u) =>
+      u.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      u.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
