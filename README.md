@@ -2,6 +2,22 @@
 
 Um sistema moderno e intuitivo para gerenciamento de usuários e tarefas, desenvolvido com React e uma interface elegante.
 
+## Grupo
+
+- Joao Pedro Silva Antunes
+- Fernanda Aparecida Figueiredo da Silva
+- Alan Araújo da Silveira
+- Ana Cláudia Monteiro Misquita
+
+
+Este repositório contém dois módulos principais:
+
+- `Front/` — aplicação front-end (Next.js) pronta para rodar localmente ou em container.
+- `BackEnd/` — API REST desenvolvida em Flask com persistência via SQLite e documentação via Swagger (Flask-RESTX).
+
+Link do repositorio do back-End:
+`https://github.com/fernanda2003/Gerenciador-Tarefas`
+
 ## ✨ Funcionalidades
 
 ### 👥 Gestão de Usuários
