@@ -1,44 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📋 Sistema de Gerenciamento de Tarefas
 
-## Getting Started
+Um sistema moderno e intuitivo para gerenciamento de usuários e tarefas, desenvolvido com React e uma interface elegante.
 
-First, run the development server:
+## ✨ Funcionalidades
+
+### 👥 Gestão de Usuários
+- **Cadastro de usuários** - Adicione novos usuários ao sistema
+- **Edição de usuários** - Atualize informações existentes
+- **Exclusão de usuários** - Remova usuários do sistema
+- **Busca em tempo real** - Encontre usuários rapidamente
+- **Visualização em cards** - Interface limpa e organizada
+
+### ✅ Gestão de Tarefas
+- **Criação de tarefas** - Adicione novas tarefas com título, descrição e prazo
+- **Atribuição a usuários** - Associe tarefas aos usuários do sistema
+- **Filtros inteligentes** - Filtre por usuário específico ou busque por texto
+- **Edição completa** - Modifique qualquer informação da tarefa
+- **Exclusão segura** - Remova tarefas com confirmação
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Frontend:** React 18
+- **Build Tool:** Vite
+- **Estilização:** Tailwind CSS
+- **Ícones:** Lucide React
+- **Roteamento:** React Router DOM
+- **Requisições HTTP:** Fetch API
+
+## 🚀 Como Executar o Projeto
 
 ```bash
+# 1. Clone o repositório
+git clone <url-do-projeto>
+
+# 2. Entre no diretório
+cd <nome-do-projeto>
+
+# 3. Instale as dependências
+npm install
+
+# 4. Execute o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 5. Acesse no navegador
+# http://localhost:8080
 ```
 
-To run with docker:
+```
+
+Para rodar com docker:
 ```
 
 docker build -t meu-next-app .
 
 docker run -p 3000:3000 meu-next-app
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Abra a porta [http://localhost:3000](http://localhost:3000) com o navegador para ver o resultado.
+```
